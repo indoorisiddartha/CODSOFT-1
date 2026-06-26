@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Board - Find Your Dream Job</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- STYLE.CSS (Embedded) --- */
+        :root {
+            --primary-blue: #1a73e8;
+            --gradient-blue: linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%);
+            --accent-green: #00c853;
+            --accent-green-hover: #00b248;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            background: var(--gradient-blue);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-blue);
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .login-btn {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .post-job-btn {
+            background-color: var(--accent-green);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .post-job-btn:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        /* Hero Section (Demo 2 Style) */
+        .hero {
+            background: var(--gradient-blue);
+            color: var(--white);
+            padding: 6rem 2rem 8rem 2rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .upload-resume-btn {
+            background-color: var(--accent-green);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 200, 83, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .hero-image svg {
+            width: 100%;
+            max-width: 450px;
+            float: right;
+        }
+
+        /* Search Bar Wrapper */
+        .search-container {
+            max-width: 1000px;
+            margin: -3rem auto 0 auto;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--primary-blue);
+            background: var(--white);
+        }
+
+        .input-group i {
+            color: var(--text-muted);
+            margin-right: 10px;
+        }
+
+        .input-group input, .input-group select {
+            border: none;
+            background: transparent;
+            width: 100%;
+            outline: none;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .search-submit-btn {
+            background: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .search-submit-btn:hover {
+            background: var(--accent-green-hover);
+        }
+
+        /* Main Content App Sections */
+        main {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Job Cards Grid */
+        .job-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .job-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: rgba(26, 115, 232, 0.3);
+        }
+
+        .job-info-left {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .company-logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: #eff6ff;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .job-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .company-name {
+            color: var(--primary-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-meta-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .job-type-badge {
+            background: #e6fcf5;
+            color: #0ca678;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .job-action-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .view-details-btn {
+            background: transparent;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-details-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        /* Dashboards & View States (Hidden by default) */
+        .app-view {
+            display: none;
+        }
+
+        .app-view.active-view {
+            display: block;
+        }
+
+        /* Form Layouts (Post Job / Apply) */
+        .form-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-blue);
+        }
+
+        /* Details Page UI */
+        .details-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .details-body {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .details-body h4 {
+            margin: 1.5rem 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-image {
+                display: none;
+            }
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            .job-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            .job-action-right {
+                align-items: flex-start;
+                width: 100%;
+            }
+            .view-details-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links {
+                display: none; /* Simplification for single program template */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a onclick="switchView('home-view')" class="logo">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Job Board</span>
+            </a>
+            <ul class="nav-links">
+                <li><a onclick="switchView('home-view')" id="nav-home" class="active">Home</a></li>
+                <li><a onclick="switchView('candidate-dashboard')" id="nav-candidate">Candidate Dashboard</a></li>
+                <li><a onclick="switchView('employer-dashboard')" id="nav-employer">Employer Dashboard</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <span class="login-btn">Log In</span>
+                <button class="post-job-btn" onclick="switchView('post-job-view')">Post A Job</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="home-view" class="app-view active-view">
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <p style="text-transform: uppercase; letter-spacing: 1px; font-weight: 600; color: #a5f3fc;">4536+ Jobs Listed</p>
+                    <h1>Find your Dream Job</h1>
+                    <p>We provide instant connectivity between elite employers and top-tier candidates looking to level up their tech workspace setup.</p>
+                    <button class="upload-resume-btn" onclick="switchView('candidate-dashboard')">
+                        <i class="fa-solid fa-file-arrow-up"></i> Upload Your Resume
+                    </button>
+                </div>
+                <div class="hero-image">
+                    <svg viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="400" height="260" x="50" y="70" rx="12" fill="white" opacity="0.15"/>
+                        <rect width="360" height="40" x="70" y="90" rx="6" fill="white" opacity="0.2"/>
+                        <circle cx="100" cy="230" r="40" fill="#00c853" opacity="0.8"/>
+                        <rect width="120" height="16" x="160" y="210" rx="4" fill="white"/>
+                        <rect width="180" height="10" x="160" y="240" rx="4" fill="white" opacity="0.6"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <div class="search-container">
+            <div class="search-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-title" placeholder="Search keyword, job title...">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input type="text" id="search-location" placeholder="Location">
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <select id="search-category">
+                        <option value="">All Categories</option>
+                        <option value="Development">Development</option>
+                        <option value="Design">Design</option>
+                        <option value="Marketing">Marketing</option>
+                    </select>
+                </div>
+                <button class="search-submit-btn" onclick="filterJobs()">Find Job</button>
+            </div>
+        </div>
+
+        <main>
+            <div class="section-title">
+                <h2>Featured Job Listings</h2>
+                <span style="font-size: 1rem; color: var(--text-muted);" id="job-count">Showing all jobs</span>
+            </div>
+            <div class="job-grid" id="featured-job-list">
+                </div>
+        </main>
+    </div>
+
+    <div id="job-detail-view" class="app-view">
+        <main>
+            <button class="view-details-btn" onclick="switchView('home-view')" style="margin-bottom: 2rem;">
+                <i class="fa-solid fa-arrow-left"></i> Back to Listings
+            </button>
+            <div class="details-body" id="dynamic-job-details">
+                </div>
+        </main>
+    </div>
+
+    <div id="apply-job-view" class="app-view">
+        <main>
+            <div class="form-card">
+                <h2 style="margin-bottom: 1.5rem;">Submit Application</h2>
+                <form id="application-form" onsubmit="handleApplySubmit(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" required placeholder="johndoe@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Resume</label>
+                        <input type="file" required accept=".pdf,.doc,.docx">
+                    </div>
+                    <div class="form-group">
+                        <label>Cover Letter / Notes</label>
+                        <textarea rows="4" placeholder="Briefly state why you're a great fit..."></textarea>
+                    </div>
+                    <button type="submit" class="post-job-btn" style="width: 100%;">Submit Application</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <div id="post-job-view" class="app-view">
+        <main>
+            <div class="form-card">
+                <h2 style="margin-bottom: 1.5rem;">Create a New Job Opening</h2>
+                <form id="post-job-form" onsubmit="handlePostJob(event)">
+                    <div class="form-group">
+                        <label>Job Title</label>
+                        <input type="text" id="post-title" required placeholder="e.g. Senior React Developer">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="post-company" required placeholder="e.g. Google Cloud Enterprise">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="post-category" required>
+                            <option value="Development">Development</option>
+                            <option value="Design">Design</option>
+                            <option value="Marketing">Marketing</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Job Location</label>
+                        <input type="text" id="post-location" required placeholder="e.g. Hyderabad, India">
+                    </div>
+                    <div class="form-group">
+                        <label>Job Type</label>
+                        <select id="post-type" required>
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Salary Range</label>
+                        <input type="text" id="post-salary" required placeholder="e.g. $80k - $100k">
+                    </div>
+                    <div class="form-group">
+                        <label>Job Description</label>
+                        <textarea id="post-desc" rows="6" required placeholder="Detail dependencies, job duties, required tech stack assets..."></textarea>
+                    </div>
+                    <button type="submit" class="post-job-btn" style="width: 100%;">Publish Job Listing</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <div id="candidate-dashboard" class="app-view">
+        <main>
+            <div class="section-title"><h2>Candidate Management Board</h2></div>
+            <div class="details-body" style="margin-bottom: 2rem;">
+                <h3>Your Applied Applications Tracker</h3>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Monitor real-time status updates processing status of submitted roles.</p>
+                <div class="job-grid" id="applied-tracker-list">
+                    <div style="text-align: center; color: var(--text-muted); padding: 2rem;">You haven't applied to any jobs yet.</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="employer-dashboard" class="app-view">
+        <main>
+            <div class="section-title">
+                <h2>Employer Operations Portal</h2>
+                <button class="post-job-btn" onclick="switchView('post-job-view')">Add New Post</button>
+            </div>
+            <div class="details-body">
+                <h3>Your Active Listings</h3>
+                <div class="job-grid" id="employer-active-listings" style="margin-top: 1.5rem;">
+                     </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mock Core Application State Database Strategy
+        let jobsDatabase = [
+            {
+                id: 1,
+                title: "Senior Full Stack Engineer",
+                company: "TechPulse Corp",
+                category: "Development",
+                location: "Hyderabad, India",
+                type: "Full Time",
+                salary: "₹18L - ₹24L",
+                desc: "We are seeking a seasoned Engineer fluent across React ecosystem and Node.js backend abstractions layer ecosystems. Must be proficient structuring scalable relational models and caching infrastructure."
+            },
+            {
+                id: 2,
+                title: "UI/UX Product Designer",
+                company: "Creative Studio Inc",
+                category: "Design",
+                location: "Remote",
+                type: "Remote",
+                salary: "$70k - $90k",
+                desc: "Looking for an artist specialized in atomic layout design system frameworks, structured responsive user flows, high fidelity prototype interactions."
+            },
+            {
+                id: 3,
+                title: "Growth Marketing Specialist",
+                company: "VentureScale Systems",
+                category: "Marketing",
+                location: "Bangalore, India",
+                type: "Part Time",
+                salary: "₹8L - ₹12L",
+                desc: "Execute targeted data analytic acquisition pipelines to maximize metrics lifecycle output. Direct experience running technical SEO metrics operations required."
+            }
+        ];
+
+        let appliedJobs = [];
+        let selectedJobId = null;
+
+        // Routing SPA system layout controls
+        function switchView(viewId) {
+            document.querySelectorAll('.app-view').forEach(view => {
+                view.classList.remove('active-view');
+            });
+            document.getElementById(viewId).classList.add('active-view');
+
+            // Set navbar links styling states
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            if(viewId === 'home-view') document.getElementById('nav-home').classList.add('active');
+            if(viewId === 'candidate-dashboard') document.getElementById('nav-candidate').classList.add('active');
+            if(viewId === 'employer-dashboard') document.getElementById('nav-employer').classList.add('active');
+            
+            // Re-render specific dashboards values when switched to view current database data updates
+            if(viewId === 'home-view') renderJobs(jobsDatabase);
+            if(viewId === 'candidate-dashboard') renderCandidateDashboard();
+            if(viewId === 'employer-dashboard') renderEmployerDashboard();
+        }
+
+        // Render Card Engine
+        function renderJobs(jobsArray) {
+            const container = document.getElementById('featured-job-list');
+            document.getElementById('job-count').innerText = `Displaying ${jobsArray.length} available job listings`;
+            
+            if(jobsArray.length === 0) {
+                container.innerHTML = `<div style="text-align:center; width:100%; padding:3rem; color:var(--text-muted)">No jobs found matches search criteria parameter.</div>`;
+                return;
+            }
+
+            container.innerHTML = jobsArray.map(job => `
+                <div class="job-card">
+                    <div class="job-info-left">
+                        <div class="company-logo-placeholder">${job.company.charAt(0)}</div>
+                        <div class="job-details">
+                            <h3>${job.title}</h3>
+                            <div class="company-name">${job.company}</div>
+                            <div class="job-meta-tags">
+                                <span class="meta-tag"><i class="fa-solid fa-location-dot"></i> ${job.location}</span>
+                                <span class="meta-tag"><i class="fa-solid fa-money-bill-wave"></i> ${job.salary}</span>
+                                <span class="job-type-badge">${job.type}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job-action-right">
+                        <button class="view-details-btn" onclick="viewJobDetails(${job.id})">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Searching/Filtering Logic Modules
+        function filterJobs() {
+            const keyword = document.getElementById('search-title').value.toLowerCase();
+            const location = document.getElementById('search-location').value.toLowerCase();
+            const category = document.getElementById('search-category').value;
+
+            const matches = jobsDatabase.filter(job => {
+                const matchKeyword = job.title.toLowerCase().includes(keyword) || job.desc.toLowerCase().includes(keyword);
+                const matchLocation = job.location.toLowerCase().includes(location);
+                const matchCategory = category === "" || job.category === category;
+                return matchKeyword && matchLocation && matchCategory;
+            });
+
+            renderJobs(matches);
+        }
+
+        // Job details view parsing logic 
+        function viewJobDetails(id) {
+            const job = jobsDatabase.find(j => j.id === id);
+            if(!job) return;
+            selectedJobId = id;
+
+            const container = document.getElementById('dynamic-job-details');
+            container.innerHTML = `
+                <div class="details-header">
+                    <span class="job-type-badge" style="margin-bottom:1rem; display:inline-block;">${job.type}</span>
+                    <h2>${job.title}</h2>
+                    <h3 class="company-name" style="font-size:1.2rem; margin: 0.5rem 0;">${job.company}</h3>
+                    <div class="job-meta-tags" style="margin-top:1rem;">
+                        <span class="meta-tag"><i class="fa-solid fa-location-dot"></i> ${job.location}</span>
+                        <span class="meta-tag"><i class="fa-solid fa-money-bill-wave"></i> ${job.salary}</span>
+                        <span class="meta-tag"><i class="fa-solid fa-folder"></i> ${job.category}</span>
+                    </div>
+                </div>
+                <div>
+                    <h4>Job Description</h4>
+                    <p style="color: var(--text-dark); opacity:0.9;">${job.desc}</p>
+                    
+                    <h4 style="margin-top:2rem;">Core Work Perks & Requirements</h4>
+                    <ul style="margin-left: 1.5rem; margin-top:0.5rem; color:var(--text-muted)">
+                        <li>Comprehensive operational healthcare plan assets distribution parameters coverage.</li>
+                        <li>Dynamic remote workstation flexible operations allowances framework options.</li>
+                        <li>Accelerated operational structural professional paths clear alignment visibility plans.</li>
+                    </ul>
+                    <button class="post-job-btn" style="margin-top: 2.5rem; width:100%; padding:1rem;" onclick="switchView('apply-job-view')">
+                        Apply For This Job Position Now
+                    </button>
+                </div>
+            `;
+            switchView('job-detail-view');
+        }
+
+        // Forms Actions Event Form Submissions
+        function handlePostJob(e) {
+            e.preventDefault();
+            const newJob = {
+                id: jobsDatabase.length + 1,
+                title: document.getElementById('post-title').value,
+                company: document.getElementById('post-company').value,
+                category: document.getElementById('post-category').value,
+                location: document.getElementById('post-location').value,
+                type: document.getElementById('post-type').value,
+                salary: document.getElementById('post-salary').value,
+                desc: document.getElementById('post-desc').value
+            };
+
+            jobsDatabase.unshift(newJob); // Put new items at top front stack list
+            document.getElementById('post-job-form').reset();
+            alert("Success! System published new Active Listing to Public Domain Database.");
+            switchView('employer-dashboard');
+        }
+
+        function handleApplySubmit(e) {
+            e.preventDefault();
+            const currentJob = jobsDatabase.find(j => j.id === selectedJobId);
+            if(currentJob) {
+                appliedJobs.push({
+                    ...currentJob,
+                    status: 'Application Reviewing',
+                    appliedDate: new Date().toLocaleDateString()
+                });
+            }
+            document.getElementById('application-form').reset();
+            alert("System Alert: Form uploaded successfully! E-mail verification triggers pipeline dispatched.");
+            switchView('candidate-dashboard');
+        }
+
+        // Render Dashboard Sub-elements UI Trackers
+        function renderCandidateDashboard() {
+            const container = document.getElementById('applied-tracker-list');
+            if(appliedJobs.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 2rem; width:100%;">You haven't applied to any jobs yet.</div>`;
+                return;
+            }
+            container.innerHTML = appliedJobs.map(job => `
+                <div class="job-card" style="border-left: 5px solid var(--primary-blue);">
+                    <div class="job-info-left">
+                        <div>
+                            <h3>${job.title}</h3>
+                            <div class="company-name">${job.company}</div>
+                            <div style="font-size:0.8rem; color:var(--text-muted)">Submitted: ${job.appliedDate}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="job-type-badge" style="background:#e0f2fe; color:#0369a1;"><i class="fa-solid fa-spinner fa-spin"></i> ${job.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderEmployerDashboard() {
+            const container = document.getElementById('employer-active-listings');
+            container.innerHTML = jobsDatabase.map(job => `
+                <div class="job-card">
+                    <div class="job-info-left">
+                        <div class="job-details">
+                            <h3>${job.title}</h3>
+                            <div style="color:var(--text-muted); font-size:0.9rem;">Category: <strong>${job.category}</strong> | Location: ${job.location}</div>
+                        </div>
+                    </div>
+                    <div>
+                         <span class="job-type-badge" style="background:#fff7ed; color:#c2410c;">Active Candidates (3)</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Run Initial Render State execution
+        window.onload = function() {
+            renderJobs(jobsDatabase);
+        }
+    </script>
+</body>
+</html>
